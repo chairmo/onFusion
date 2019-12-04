@@ -1,33 +1,63 @@
-import React from 'react';
-import {FlatList, View, SafeAreaView} from 'react-native';
-import {ListItem} from 'react-native-elements';
-import * as Constants from "expo-constants";
+import React, {Component} from 'react';
+import {FlatList, Text} from 'react-native';
+import {Tile} from 'react-native-elements';
+import {connect} from "react-redux";
+import {baseUrl} from "../shared/baseUrl";
+import Loading from "./LoadingComponent";
+import View from "react-native-web/dist/exports/View";
 
-export default function Menu(props) {
 
-    const RenderMenuItem = ({item, index}) => {
-        return (
-                <ListItem
-                    key={index}
-                    title={item.name}
-                    subtitle={item.description}
-                    leftAvatar={{source: require('./images/alberto.png')}}
-                    hideChevron={true}
+const mapStateToProps = state => {
+    return ({
+        dishes: state.dishes
+    })
+};
 
-                    />
-        )
+
+class Menu extends Component {
+
+    static navigationOptions = {
+        title: 'Menu'
     };
 
-    return (
-        <FlatList
-            data = {props.dishes}
-            renderItem={RenderMenuItem}
-            keyExtractor={ item =>item.id.toString() }
-            />
-    )
 
+    render() {
+        const RenderMenuItem = ({item, index}) => {
+            return (
+                <Tile
+                    key={index}
+                    title={item.name}
+                    caption={item.description}
+                    imageSrc={{uri: baseUrl + item.image}}
+                    featured
+                    onPress={() => navigate('DishDetail', {dishId: item.id})}
+                />
+            )
+        };
+
+        let {navigate} = this.props.navigation;
+
+        if (this.props.dishes.isLoading) {
+            return (
+                <Loading/>
+            )
+        } else if (this.props.dishes.errorMessage) {
+            return (
+                <View>
+                    <Text> {this.props.dishes.errorMessage} </Text>
+                </View>
+            )
+        } else {
+            return (
+                <FlatList
+                    data={this.props.dishes.dishes}
+                    renderItem={RenderMenuItem}
+                    keyExtractor={item => item.id.toString()}
+                />
+            )
+        }
+    }
 }
 
 
-
-/*export default Menu; */
+export default connect(mapStateToProps)(Menu);
