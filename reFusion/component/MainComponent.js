@@ -10,6 +10,7 @@ import {createAppContainer} from "react-navigation";
 import {Button, Icon} from "react-native-elements";
 import {SafeAreaView, ScrollView, View, Text, Image, StyleSheet} from "react-native";
 import {connect} from "react-redux";
+import Reservation from "./ReservationComponent";
 import {fetchComments, fetchDishes, fetchLeaders, fetchPromotions} from "../redux/actionCreators";
 
 
@@ -27,7 +28,7 @@ const MenuNavigator = createStackNavigator({
     Menu: {
         screen: Menu,
         navigationOptions: ({navigation}) => ({
-            headerLeft: <Icon name="arrow-back" size={30} color="#fff"
+            headerLeft: <Icon name="arrow-back" size={24} color="#fff"
                               onPress={() => navigation.navigate("Home")}/>
         })
     },
@@ -62,7 +63,7 @@ const AboutNavigator = createStackNavigator({
     About: {
         screen: About,
         navigationOptions: ({navigation}) => ({
-            headerLeft: <Icon name="arrow-back" size={30} color="#fff"
+            headerLeft: <Icon name="arrow-back" size={24} color="#fff"
                               onPress={() => navigation.navigate("Home")}/>
         })
     },
@@ -78,7 +79,23 @@ const ContactNavigator = createStackNavigator({
     Contact: {
         screen: Contact,
         navigationOptions: ({navigation}) => ({
-            headerLeft: <Icon name="arrow-back" size={30} color="#fff"
+            headerLeft: <Icon name="arrow-back" size={24} color="#fff"
+                              onPress={() => navigation.navigate("Home")}/>
+        })
+    },
+}, {
+    defaultNavigationOptions: {
+        headerStyle: {backgroundColor: '#512DA2'},
+        headerTintColor: '#fff',
+        headerTintStyle: {color: '#fff'}
+    }
+});
+
+const ReservationNavigator = createStackNavigator({
+    Reservation: {
+        screen: Reservation,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <Icon name="arrow-back" size={24} color="#fff"
                               onPress={() => navigation.navigate("Home")}/>
         })
     },
@@ -152,6 +169,19 @@ const MainNavigator = createDrawerNavigator({
                 drawerLabel: 'Contact Us',
                 drawerIcon: ({tintColor, focused}) => (
                     <Icon name="address-card"
+                          type="font-awesome"
+                          size={24}
+                          color={tintColor}
+                    />
+                )
+            }
+        },
+        Reserve: {
+            screen: ReservationNavigator, navigationOptions: {
+                title: 'Make Reservation',
+                drawerLabel: 'Make Reservation',
+                drawerIcon: ({tintColor, focused}) => (
+                    <Icon name="cutlery"
                           type="font-awesome"
                           size={24}
                           color={tintColor}
