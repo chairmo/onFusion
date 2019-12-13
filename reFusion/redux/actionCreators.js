@@ -141,7 +141,6 @@ export const fetchComments =() => (dispatch) => {
         .catch((err) => dispatch(comments_failed(err.message)))
 };
 
-
 export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
@@ -152,6 +151,16 @@ export const comments_failed = (errMess) => ({
     payload: errMess
 });
 
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) =>{
+    let newComment = {dishId: dishId, rating: rating, author: author,
+        comment: comment, date: new Date().toISOString()};
+    setTimeout(() => dispatch(addComment(newComment)), 2000)
+};
 
 export const postFavorites = (dishId) => (dispatch) => {
     setTimeout(() => dispatch(addFavorite(dishId)), 2000);

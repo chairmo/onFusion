@@ -11,6 +11,7 @@ import {Button, Icon} from "react-native-elements";
 import {SafeAreaView, ScrollView, View, Text, Image, StyleSheet} from "react-native";
 import {connect} from "react-redux";
 import Reservation from "./ReservationComponent";
+import Favorites from "./FavoriteComponent";
 import {fetchComments, fetchDishes, fetchLeaders, fetchPromotions} from "../redux/actionCreators";
 
 
@@ -107,6 +108,22 @@ const ReservationNavigator = createStackNavigator({
     }
 });
 
+const FavoriteNavigator = createStackNavigator({
+    Favorites: {
+        screen: Favorites,
+        navigationOptions: ({navigation}) => ({
+            headerLeft: <Icon name="arrow-back" size={24} color="#fff"
+                              onPress={() => navigation.navigate("Home")}/>
+        })
+    },
+}, {
+    defaultNavigationOptions: {
+        headerStyle: {backgroundColor: '#512DA2'},
+        headerTintColor: '#fff',
+        headerTintStyle: {color: '#fff'}
+    }
+});
+
 const customDrawerContentComponent = (props) => (
     <ScrollView>
         <SafeAreaView style={styles.container} forceInsert={{top: 'always', horizontal: 'never'}}>
@@ -176,6 +193,19 @@ const MainNavigator = createDrawerNavigator({
                 )
             }
         },
+        Favorites: {
+            screen: FavoriteNavigator, navigationOptions: {
+                title: 'My Favorites',
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({tintColor, focused}) => (
+                    <Icon name="heart"
+                          type="font-awesome"
+                          size={24}
+                          color={tintColor}
+                    />
+                )
+            }
+        },
         Reserve: {
             screen: ReservationNavigator, navigationOptions: {
                 title: 'Make Reservation',
@@ -189,6 +219,7 @@ const MainNavigator = createDrawerNavigator({
                 )
             }
         }
+
     },
     {
         drawerBackgroundColor: '#dae2e8',
